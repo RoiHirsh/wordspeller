@@ -15,16 +15,67 @@
 
 .letter {
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid rgb(114, 100, 100);
+  border-radius: 5px;
   width: 60px;
   height: 60px;
   font-size: 40px;
+  color: white;
+  background-color:#62ab5e;
   text-align: center;
   line-height: 60px; 
   margin-top: 20px;
   margin-right: 20px;
   margin-left: 20px;
   padding: 0px;
+}
+
+.letter[disabled] {
+  pointer-events: none;
+  color: #62ab5e;
+  background-color: lightyellow;
+}
+
+.letter:hover {
+  cursor: pointer;
+  color: #62ab5e;
+  background-color: lightyellow;
+}
+
+.hebWord {
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+.character {
+  font-size: 60px;
+  color: white;
+  opacity: 0.4;
+}
+
+.character-clicked {
+  font-size: 60px;
+  color: white;
+}
+
+.engWord {
+  display: flex;
+}
+
+.pronunciation {
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  line-height: 40px;
+}
+
+.keyboard-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-right: 10vw;
+  margin-left: 10vw;
 }
 
 @media (max-width: 1200px) {
@@ -34,35 +85,18 @@
     font-size: 20px;
     line-height: 40px; 
   }
-}
-
-.letterHover:hover {
-  outline: none;
-  background-color: lightyellow;
-  color: #62ab5e;
-}
-
-.pronunciation {
-  font-size: 20px;
-  text-align: center;
-  line-height: 40px;
-}
-
-@media (max-width: 1200px) {
+  .hebWord {
+    font-size: 30px;
+  }
+  .keyboard-wrapper {
+    margin-right: 5vw;
+    margin-left: 5vw;
+  }
   .pronunciation {
     font-size: 10px;
     line-height: 20px;
   }
-}
-
-.keyboard-wrapper {
-  margin-right: 10vw;
-  margin-left: 10vw;
-}
-
-@media (max-width: 1200px) {
-  .keyboard-wrapper {
-    margin-right: 5vw;
-    margin-left: 5vw;
+  .engWord {
+    font-size: 30px;
   }
 }

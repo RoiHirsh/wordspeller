@@ -1,6 +1,8 @@
 import React from "react";
+import EngKey from "./engkey";
+import { Pronunciation } from "./App"
 
-const Keyboard = () => {
+const Keyboard = (props) => {
   const englishLetters = [
     { "A": "אֶיי" },
     { "B": "בִּי" },
@@ -34,43 +36,14 @@ const Keyboard = () => {
     <React.Fragment>
       <div className="keyboard-wrapper">
         {englishLetters.map((letter, index) => (
-          <div className="letter" key={index}>
-            <div className="letterHover">{Object.keys(letter)[0]}</div>
-            <div className="pronunciation">{letter[Object.keys(letter)[0]]}</div>
+          <div key={index}>
+            <EngKey letter={Object.keys(letter)[0]} func={props.func} />
+            <Pronunciation pronunciation={letter[Object.keys(letter)[0]]} />
           </div>
         ))}
       </div>
     </React.Fragment>
-
   )  
-//  return (
-//    <React.Fragment>
-//      <div>
-//        {englishLetters.slice(0, 9).map((letter) => (
-//          <div className="letter">
-//            <div className="letterHover">{Object.keys(letter)[0]}</div>
-//            <div className="pronunciation">{letter[Object.keys(letter)[0]]}</div>
-//          </div>
-//        ))}
-//      </div>
-//      <div>
-//        {englishLetters.slice(9, 18).map((letter) => (
-//          <div className="letter">
-//            <div className="letterHover">{Object.keys(letter)[0]}</div>
-//            <div className="pronunciation">{letter[Object.keys(letter)[0]]}</div>
-//          </div>
-//        ))}
-//      </div>
-//      <div>
-//        {englishLetters.slice(18).map((letter) => (
-//          <div className="letter">
-//            <div className="letterHover">{Object.keys(letter)[0]}</div>
-//            <div className="pronunciation">{letter[Object.keys(letter)[0]]}</div>
-//          </div>
-//        ))}
-//      </div>
-//    </React.Fragment>
-//  );
 };
 
 export default Keyboard;
