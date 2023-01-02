@@ -3,24 +3,23 @@ import Keyboard from './keyboard';
 import { useState, useEffect } from 'react';
 
 const englishWords = [
-  { "CAR": "תינוק" },
-  { "BABY": "בִּי" },
-  { "DOG": "סִי" },
+  { "CAR": "מכונית" },
+  { "BABY": "תינוק" },
+  { "DOG": "כלב" },
 ];
-
-const hebWord = englishWords[0][Object.keys(englishWords[0])[0]]
-const engWord = Object.keys(englishWords[1])[0]
-const charsNotClicked = [...new Set(engWord.split(''))];
 
 function Char(props) {
   const [clicked, setClicked] = useState(false);
-
+  useEffect(() => {
+    setClicked(false);
+  }, [props.count])
+  
   useEffect(() => {
     if (props.charSet.includes(props.char)) {
       setClicked(true);
     }
   }, [props.charSet, props.char]);
-
+  
   return (
     <div
       className={clicked ? "character-clicked" : "character"}
@@ -31,10 +30,12 @@ function Char(props) {
 }
 
 function EngWord(props) {
+  const { word, charSet, count } = props;
+
   return (
     <div className='engWord'>
-      {props.word.split('').map((char, index) => (
-        <Char key={index} char={char} charSet={props.charSet}/>
+      {word.split('').map((char, index) => (
+        <Char key={index} char={char} charSet={charSet} count={count}/>
       ))}
     </div>
   );
@@ -51,13 +52,23 @@ function compareLists(list1, list2) {
 }
 
 function App() {
-  const [charsClicked, setCharsClicked] = useState([]);
+  let charsNotClicked;
+  let [charsClicked, setCharsClicked] = useState([]);
+  const [count, setCount] = useState(0);
+  let hebWord = englishWords[count][Object.keys(englishWords[count])[0]];
+  let engWord = Object.keys(englishWords[count])[0];
+  charsNotClicked = Array.from(new Set(engWord.split('')));
+
+  useEffect(() => {
+    if (compareLists(charsClicked, charsNotClicked)) {
+      setCount(count + 1);
+      setCharsClicked([]);
+    }
+  }, [charsClicked, charsNotClicked, count]);
+  
   function check(letter) {
     if (charsNotClicked.includes(letter)) {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = 'Great';
-      window.speechSynthesis.speak(msg);
-      setCharsClicked([...charsClicked, letter])
+      setCharsClicked([...charsClicked, letter]);
     }
   }
 
@@ -65,8 +76,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1 className='hebWord'>{hebWord}</h1>
-        <EngWord word={engWord} charSet={charsClicked}/>
-        <Keyboard func={check}/>
+        <EngWord word={engWord} charSet={charsClicked} count={count}/>
+        <Keyboard func={check} count={count}/>
       </header>
     </div>
   );

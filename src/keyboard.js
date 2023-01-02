@@ -37,7 +37,7 @@ const Keyboard = (props) => {
       <div className="keyboard-wrapper">
         {englishLetters.map((letter, index) => (
           <div key={index}>
-            <EngKey letter={Object.keys(letter)[0]} func={props.func} />
+            <EngKey letter={Object.keys(letter)[0]} func={props.func} count={props.count}/>
             <Pronunciation pronunciation={letter[Object.keys(letter)[0]]} />
           </div>
         ))}

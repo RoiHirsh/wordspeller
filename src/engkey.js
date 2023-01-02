@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
   
 function EngKey(props) {
   const [clicked, setClicked] = useState(false);
+  useEffect(() => {
+    setClicked(false);
+  }, [props.count]);
 
   function handleClick() {
     const msg = new SpeechSynthesisUtterance();
