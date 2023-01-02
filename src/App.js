@@ -3,10 +3,18 @@ import Keyboard from './keyboard';
 import { useState, useEffect } from 'react';
 
 const englishWords = [
-  { "CAR": "מכונית" },
-  { "BABY": "תינוק" },
-  { "DOG": "כלב" },
-];
+  { "CAT": "חָתוּל" },
+  { "DOG": "כֶּלֶב" },
+  { "BIRD": "צִפּוֹר" },
+  { "FISH": "דָּג" },
+  { "MONKEY": "קוֹף" },
+  { "ELEPHANT": "פִּיל" },
+  { "LION": "אַרְיֵה" },
+  { "GIRAFFE": "גִ'ירָפָה" },
+  { "PANDA": "פַּנְדָּה" },
+  { "TIGER": "נָמֵר" }
+  ];
+const msg = new SpeechSynthesisUtterance();
 
 function Char(props) {
   const [clicked, setClicked] = useState(false);
@@ -30,11 +38,18 @@ function Char(props) {
 }
 
 function EngWord(props) {
-  const { word, charSet, count } = props;
+  const { engWord, charSet, count } = props;
 
+  useEffect(() => {
+    console.log(engWord)
+    const msgWordUp = new SpeechSynthesisUtterance();
+    msgWordUp.text = engWord;
+    window.speechSynthesis.speak(msgWordUp);
+  }, [count])
+ 
   return (
     <div className='engWord'>
-      {word.split('').map((char, index) => (
+      {engWord.split('').map((char, index) => (
         <Char key={index} char={char} charSet={charSet} count={count}/>
       ))}
     </div>
@@ -53,31 +68,51 @@ function compareLists(list1, list2) {
 
 function App() {
   let charsNotClicked;
+  let hebWord;
+  let engWord
   let [charsClicked, setCharsClicked] = useState([]);
   const [count, setCount] = useState(0);
-  let hebWord = englishWords[count][Object.keys(englishWords[count])[0]];
-  let engWord = Object.keys(englishWords[count])[0];
+  const [showButton, setShowButton] = useState(false);
+  
+  hebWord = englishWords[count][Object.keys(englishWords[count])[0]];
+  engWord = Object.keys(englishWords[count])[0];
   charsNotClicked = Array.from(new Set(engWord.split('')));
 
+  function handleCorrectGuess() {
+    msg.text = engWord;
+    window.speechSynthesis.speak(msg);
+    setShowButton(true);
+  }
   useEffect(() => {
     if (compareLists(charsClicked, charsNotClicked)) {
-      setCount(count + 1);
-      setCharsClicked([]);
+      if (count === englishWords.length - 1) {
+        alert('נגמרו המילים, המשחק נגמר');
+        window.location.reload();
+      } else {
+        handleCorrectGuess();
+      }
     }
-  }, [charsClicked, charsNotClicked, count]);
-  
+  });
+
   function check(letter) {
     if (charsNotClicked.includes(letter)) {
       setCharsClicked([...charsClicked, letter]);
     }
   }
-
+  
+  function nextWord() {
+    setCount(count + 1);
+    setCharsClicked([]);
+    setShowButton(false)
+  }
+  
   return (
     <div className="App">
       <header className="App-header">
         <h1 className='hebWord'>{hebWord}</h1>
-        <EngWord word={engWord} charSet={charsClicked} count={count}/>
-        <Keyboard func={check} count={count}/>
+        <EngWord engWord={engWord} charSet={charsClicked} count={count}/>
+        <Keyboard func={check} count={count} msg={msg}/>
+        <div className='nextword'>{ showButton && <button className='nextwordbutton' onClick={nextWord}>למילה הבאה</button>}</div>
       </header>
     </div>
   );

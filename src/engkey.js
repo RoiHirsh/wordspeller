@@ -7,9 +7,8 @@ function EngKey(props) {
   }, [props.count]);
 
   function handleClick() {
-    const msg = new SpeechSynthesisUtterance();
-    msg.text = props.letter;
-    window.speechSynthesis.speak(msg);
+    props.msg.text = props.letter;
+    window.speechSynthesis.speak(props.msg);
     setClicked(true);
     props.func(props.letter)
   }

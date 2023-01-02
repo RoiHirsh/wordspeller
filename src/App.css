@@ -78,6 +78,28 @@
   margin-left: 10vw;
 }
 
+.nextword {
+  height: 40px;
+  padding-top: 10px;
+}
+
+.nextwordbutton {
+  display: inline-block;
+  background: #62ab5e;
+  border: 1px solid rgb(114, 100, 100);
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 20px;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.nextwordbutton:hover {
+  background: #f6f6f6;
+  color: #62ab5e;
+}
+
 @media (max-width: 1200px) {
   .letter {
     width: 40px;
