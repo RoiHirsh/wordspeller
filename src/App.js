@@ -2,7 +2,8 @@ import './App.css';
 import Keyboard from './keyboard';
 import { useState, useEffect } from 'react';
 
-const englishWords = [
+
+let englishWords = [
   { "CAT": "חָתוּל" },
   { "DOG": "כֶּלֶב" },
   { "BIRD": "צִפּוֹר" },
@@ -14,6 +15,13 @@ const englishWords = [
   { "PANDA": "פַּנְדָּה" },
   { "TIGER": "נָמֵר" }
   ];
+
+  englishWords = [
+    { "CAT": "חָתוּל" },
+    { "DOG": "כֶּלֶב" },
+    { "BIRD": "צִפּוֹר" }
+    ];
+  
 const msg = new SpeechSynthesisUtterance();
 
 function Char(props) {
@@ -45,7 +53,7 @@ function EngWord(props) {
     const msgWordUp = new SpeechSynthesisUtterance();
     msgWordUp.text = engWord;
     window.speechSynthesis.speak(msgWordUp);
-  }, [count])
+  }, [engWord])
  
   return (
     <div className='engWord'>
@@ -73,6 +81,7 @@ function App() {
   let [charsClicked, setCharsClicked] = useState([]);
   const [count, setCount] = useState(0);
   const [showButton, setShowButton] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
   
   hebWord = englishWords[count][Object.keys(englishWords[count])[0]];
   engWord = Object.keys(englishWords[count])[0];
@@ -83,6 +92,7 @@ function App() {
     window.speechSynthesis.speak(msg);
     setShowButton(true);
   }
+
   useEffect(() => {
     if (compareLists(charsClicked, charsNotClicked)) {
       if (count === englishWords.length - 1) {
@@ -105,14 +115,37 @@ function App() {
     setCharsClicked([]);
     setShowButton(false)
   }
+
+  function removeOverlay() {
+    setShowOverlay(false);
+    const mesg = new SpeechSynthesisUtterance();
+    mesg.text = engWord;
+    window.speechSynthesis.speak(mesg)
+  }
+
+  function sayit() {
+    const mesg = new SpeechSynthesisUtterance();
+    mesg.text = engWord;
+    window.speechSynthesis.speak(mesg)
+  }
   
   return (
     <div className="App">
+      {showOverlay && (
+        <div className='overlay-popup'>
+          <p>ליחצו על האותיות המתאימות לכל מילה באנגלית</p>
+          <button onClick={removeOverlay}>בואו נתחיל</button>
+        </div>
+      )}
       <header className="App-header">
         <h1 className='hebWord'>{hebWord}</h1>
         <EngWord engWord={engWord} charSet={charsClicked} count={count}/>
         <Keyboard func={check} count={count} msg={msg}/>
-        <div className='nextword'>{ showButton && <button className='nextwordbutton' onClick={nextWord}>למילה הבאה</button>}</div>
+        <hr></hr>
+        <div className='nextword'>
+          {<button className='hearagain' onClick={sayit}>שמיעה חוזרת</button>}
+          { showButton && <button className='nextwordbutton' onClick={nextWord}>למילה הבאה</button>}
+        </div>
       </header>
     </div>
   );
