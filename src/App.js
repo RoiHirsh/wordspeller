@@ -1,27 +1,8 @@
 import './App.css';
+import englishWords from './englishwords';
 import Keyboard from './keyboard';
 import { useState, useEffect } from 'react';
 
-
-let englishWords = [
-  { "CAT": "חָתוּל" },
-  { "DOG": "כֶּלֶב" },
-  { "BIRD": "צִפּוֹר" },
-  { "FISH": "דָּג" },
-  { "MONKEY": "קוֹף" },
-  { "ELEPHANT": "פִּיל" },
-  { "LION": "אַרְיֵה" },
-  { "GIRAFFE": "גִ'ירָפָה" },
-  { "PANDA": "פַּנְדָּה" },
-  { "TIGER": "נָמֵר" }
-  ];
-
-  englishWords = [
-    { "CAT": "חָתוּל" },
-    { "DOG": "כֶּלֶב" },
-    { "BIRD": "צִפּוֹר" }
-    ];
-  
 const msg = new SpeechSynthesisUtterance();
 
 function Char(props) {
@@ -83,8 +64,8 @@ function App() {
   const [showButton, setShowButton] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
   
-  hebWord = englishWords[count][Object.keys(englishWords[count])[0]];
-  engWord = Object.keys(englishWords[count])[0];
+  engWord = Object.keys(englishWords[Math.floor(count)])[0];
+  hebWord = englishWords[Math.floor(count)][engWord];
   charsNotClicked = Array.from(new Set(engWord.split('')));
 
   function handleCorrectGuess() {
@@ -111,7 +92,8 @@ function App() {
   }
   
   function nextWord() {
-    setCount(count + 1);
+    const number = Math.floor(Math.random() * englishWords.length);
+    setCount(number);
     setCharsClicked([]);
     setShowButton(false)
   }
@@ -133,7 +115,8 @@ function App() {
     <div className="App">
       {showOverlay && (
         <div className='overlay-popup'>
-          <p>ליחצו על האותיות המתאימות לכל מילה באנגלית</p>
+        <h1>בואו נלמד אנגלית</h1>
+          <p>ליחצו על האותיות באנגלית המתאימות לכל מילה</p>
           <button onClick={removeOverlay}>בואו נתחיל</button>
         </div>
       )}
