@@ -91,7 +91,7 @@
 .nextwordbutton, .hearagain {
   display: inline-block;
   background: #62ab5e;
-  border: 1px solid rgb(114, 100, 100);
+  border: 1px solid #ffffff;
   border-radius: 3px;
   font-size: 20px;
   text-align: center;
@@ -107,11 +107,6 @@
 .hearagain {
   float: left;
   margin-left: 20%;
-}
-
-.hearagain:hover {
-  color: #62ab5e;
-  background: #ffffff;
 }
 
 .nextwordbutton {

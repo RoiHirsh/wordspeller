@@ -75,7 +75,7 @@ function App() {
     if (compareLists(charsClicked, charsNotClicked)) {
       handleCorrectGuess();
       }
-    });
+    }, [charsClicked]);
   
   function check(letter) {
     if (charsNotClicked.includes(letter)) {
@@ -127,7 +127,7 @@ function App() {
         <Keyboard func={check} count={count} msg={msg} voices={voices}/>
         <hr></hr>
         <div className='nextword'>
-          {<button className='hearagain' onClick={sayit}>שמיעה חוזרת</button>}
+          {<button className='hearagain' onClick={sayit}>לשמיעה חוזרת</button>}
           { showButton && <button className='nextwordbutton' onClick={nextWord}>למילה הבאה</button>}
         </div>
       </header>

@@ -10,7 +10,7 @@ function EngKey(props) {
     props.msg.text = props.letter;
     props.msg.lang = 'en-US'
     props.msg.voice = props.voices[0]
-    props.msg.rate = 0.4;
+    props.msg.rate = 0.5;
     window.speechSynthesis.speak(props.msg);
     setClicked(true);
     props.func(props.letter)
