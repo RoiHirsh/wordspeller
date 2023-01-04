@@ -175,8 +175,14 @@
   padding: 16px;
   font-size: 24px;
   border: none;
+  border-radius: 3px;
   background-color:#62ab5e;
   color: white;
   cursor: pointer;
+}
+
+.overlay-popup button:hover {
+  background-color:#ffffff;
+  color:#62ab5e;
 }
 

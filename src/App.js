@@ -4,6 +4,7 @@ import Keyboard from './keyboard';
 import { useState, useEffect } from 'react';
 
 const msg = new SpeechSynthesisUtterance();
+let hebWord;
 
 function Char(props) {
   const [clicked, setClicked] = useState(false);
@@ -27,13 +28,11 @@ function Char(props) {
 }
 
 function EngWord(props) {
-  const { engWord, charSet, count } = props;
+  const { engWord, charSet, count, func } = props;
 
   useEffect(() => {
-    console.log(engWord)
-    const msgWordUp = new SpeechSynthesisUtterance();
-    msgWordUp.text = engWord;
-    window.speechSynthesis.speak(msgWordUp);
+    func('he');
+    func();
   }, [engWord])
  
   return (
@@ -57,7 +56,6 @@ function compareLists(list1, list2) {
 
 function App() {
   let charsNotClicked;
-  let hebWord;
   let engWord
   let [charsClicked, setCharsClicked] = useState([]);
   const [count, setCount] = useState(0);
@@ -69,22 +67,16 @@ function App() {
   charsNotClicked = Array.from(new Set(engWord.split('')));
 
   function handleCorrectGuess() {
-    msg.text = engWord;
-    window.speechSynthesis.speak(msg);
+    sayit(undefined, engWord);
     setShowButton(true);
   }
 
   useEffect(() => {
     if (compareLists(charsClicked, charsNotClicked)) {
-      if (count === englishWords.length - 1) {
-        alert('נגמרו המילים, המשחק נגמר');
-        window.location.reload();
-      } else {
-        handleCorrectGuess();
+      handleCorrectGuess();
       }
-    }
-  });
-
+    });
+  
   function check(letter) {
     if (charsNotClicked.includes(letter)) {
       setCharsClicked([...charsClicked, letter]);
@@ -100,30 +92,39 @@ function App() {
 
   function removeOverlay() {
     setShowOverlay(false);
-    const mesg = new SpeechSynthesisUtterance();
-    mesg.text = engWord;
-    window.speechSynthesis.speak(mesg)
+    sayit('he', hebWord);
+    sayit(undefined, engWord);
   }
 
-  function sayit() {
-    const mesg = new SpeechSynthesisUtterance();
-    mesg.text = engWord;
-    window.speechSynthesis.speak(mesg)
+  const message = new SpeechSynthesisUtterance();
+  const voices = window.speechSynthesis.getVoices();
+  
+  function sayit(hebLanguage) {
+    if (hebLanguage === 'he') {
+      message.lang = 'he';
+      message.pitch = 0; 
+      message.text = hebWord;
+    } else {
+      message.lang = 'en-US';
+      message.voice = voices[0];
+      message.text = engWord;
+    }
+    window.speechSynthesis.speak(message);
   }
   
   return (
     <div className="App">
       {showOverlay && (
         <div className='overlay-popup'>
-        <h1>בואו נלמד אנגלית</h1>
-          <p>ליחצו על האותיות באנגלית המתאימות לכל מילה</p>
-          <button onClick={removeOverlay}>בואו נתחיל</button>
+        <h1>.בּוֹאוּ נִלְמַד אַנְגְּלִית</h1>
+          <p>.לִיחְצוּ עַל הָאוֹתִיוֹת בְּאַנְגְּלִית, הַמַתְאִימוֹת לְכֹּל מִלָה</p>
+          <button onClick={removeOverlay}>בּוֹאוּ נַתְחִיל</button>
         </div>
       )}
       <header className="App-header">
         <h1 className='hebWord'>{hebWord}</h1>
-        <EngWord engWord={engWord} charSet={charsClicked} count={count}/>
-        <Keyboard func={check} count={count} msg={msg}/>
+        <EngWord engWord={engWord} charSet={charsClicked} count={count} func={sayit}/>
+        <Keyboard func={check} count={count} msg={msg} voices={voices}/>
         <hr></hr>
         <div className='nextword'>
           {<button className='hearagain' onClick={sayit}>שמיעה חוזרת</button>}
