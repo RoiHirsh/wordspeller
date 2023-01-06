@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/wordspeller/static/css/main.2e3a77a7.css",
+    "main.js": "/wordspeller/static/js/main.6239b8ca.js",
+    "static/js/787.92cd18d3.chunk.js": "/wordspeller/static/js/787.92cd18d3.chunk.js",
+    "index.html": "/wordspeller/index.html",
+    "main.2e3a77a7.css.map": "/wordspeller/static/css/main.2e3a77a7.css.map",
+    "main.6239b8ca.js.map": "/wordspeller/static/js/main.6239b8ca.js.map",
+    "787.92cd18d3.chunk.js.map": "/wordspeller/static/js/787.92cd18d3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2e3a77a7.css",
+    "static/js/main.6239b8ca.js"
+  ]
+}
