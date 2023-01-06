@@ -58,7 +58,7 @@ function App() {
   let charsNotClicked;
   let engWord
   let [charsClicked, setCharsClicked] = useState([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(Math.floor(Math.random() * englishWords.length));
   const [showButton, setShowButton] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
   
@@ -68,6 +68,10 @@ function App() {
 
   function handleCorrectGuess() {
     sayit(undefined, engWord);
+    celebrateWord();
+  }
+
+  function celebrateWord() {
     setShowButton(true);
   }
 
